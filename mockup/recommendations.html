@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recommendations - MovieRec Mockup</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html" class="logo">MovieRec System</a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="recommendations.html">Rekomendasi</a>
+                <a href="analysis.html">Analisis</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container">
+        <section>
+            <h1>Hasil Rekomendasi</h1>
+            <p>Berdasarkan kemiripan konten dengan film <strong>Inception</strong>.</p>
+        </section>
+
+        <section class="grid mt-20">
+            <!-- Movie 1 -->
+            <div class="movie-card">
+                <div class="poster-placeholder">Poster Movie 1</div>
+                <div class="movie-info">
+                    <div class="movie-title">Interstellar</div>
+                    <div class="movie-meta">2014 | Sci-Fi, Drama</div>
+                    <div class="similarity-badge">Score: 0.89</div>
+                    <p style="font-size: 0.8rem; margin: 10px 0; color: #555;">
+                        Memiliki kemiripan genre (Sci-Fi) dan sutradara yang sama (Christopher Nolan).
+                    </p>
+                    <button class="btn-secondary" style="width: 100%;" onclick="location.href='detail.html'">Lihat Detail</button>
+                </div>
+            </div>
+
+            <!-- Movie 2 -->
+            <div class="movie-card">
+                <div class="poster-placeholder">Poster Movie 2</div>
+                <div class="movie-info">
+                    <div class="movie-title">The Prestige</div>
+                    <div class="movie-meta">2006 | Drama, Mystery</div>
+                    <div class="similarity-badge">Score: 0.82</div>
+                    <p style="font-size: 0.8rem; margin: 10px 0; color: #555;">
+                        Memiliki kesamaan sutradara dan elemen narasi yang kompleks.
+                    </p>
+                    <button class="btn-secondary" style="width: 100%;" onclick="location.href='detail.html'">Lihat Detail</button>
+                </div>
+            </div>
+
+            <!-- Movie 3 -->
+            <div class="movie-card">
+                <div class="poster-placeholder">Poster Movie 3</div>
+                <div class="movie-info">
+                    <div class="movie-title">Tenet</div>
+                    <div class="movie-meta">2020 | Action, Sci-Fi</div>
+                    <div class="similarity-badge">Score: 0.78</div>
+                    <p style="font-size: 0.8rem; margin: 10px 0; color: #555;">
+                        Memiliki genre yang serupa dan tema manipulasi waktu.
+                    </p>
+                    <button class="btn-secondary" style="width: 100%;" onclick="location.href='detail.html'">Lihat Detail</button>
+                </div>
+            </div>
+
+            <!-- Movie 4 -->
+            <div class="movie-card">
+                <div class="poster-placeholder">Poster Movie 4</div>
+                <div class="movie-info">
+                    <div class="movie-title">Shutter Island</div>
+                    <div class="movie-meta">2010 | Mystery, Thriller</div>
+                    <div class="similarity-badge">Score: 0.75</div>
+                    <p style="font-size: 0.8rem; margin: 10px 0; color: #555;">
+                        Memiliki aktor utama yang sama (Leonardo DiCaprio).
+                    </p>
+                    <button class="btn-secondary" style="width: 100%;" onclick="location.href='detail.html'">Lihat Detail</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="text-center mt-20">
+            <button class="btn-secondary" onclick="location.href='index.html'">Kembali ke Pencarian</button>
+        </section>
+    </main>
+
+
+    <script src="script.js"></script>
+</body>
+</html>

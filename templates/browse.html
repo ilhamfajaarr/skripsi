@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}{{ title }} - MovieRec{% endblock %}
+
+{% block content %}
+<div class="container-fluid px-4 py-5" style="margin-top: 60px;">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h1 class="display-6 fw-bold text-white mb-2">{{ title }}</h1>
+            <p class="text-secondary">Ditemukan {{ movies|length }} film</p>
+            <hr class="border-secondary">
+        </div>
+    </div>
+
+    {% if movies %}
+    <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-6 g-4">
+        {% for movie in movies %}
+        <div class="col">
+            <div class="movie-card h-100" onclick="window.location.href='{{ url_for('detail', movie_id=movie.id) }}'" style="cursor: pointer;">
+                <div class="position-relative">
+                    <div class="movie-poster d-flex align-items-end p-3" style="background: linear-gradient(45deg, #1a1a1a, #333); height: 350px; border-radius: 8px; border: 1px solid #333;">
+                        <div class="w-100">
+                            <h6 class="text-white mb-1 fw-bold">{{ movie.title }}</h6>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="text-success small fw-bold">{{ movie.year }}</span>
+                                <span class="text-secondary small border border-secondary px-1 rounded" style="font-size: 0.7rem;">HD</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="text-center py-5">
+        <i class="bi bi-search fs-1 text-secondary mb-3"></i>
+        <h3 class="text-white">Maaf, film tidak ditemukan</h3>
+        <p class="text-secondary">Coba gunakan kata kunci lain seperti judul, sutradara, atau aktor.</p>
+        <a href="{{ url_for('home') }}" class="btn btn-danger mt-3">Kembali ke Beranda</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

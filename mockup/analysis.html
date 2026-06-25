@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analysis - MovieRec Mockup</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html" class="logo">MovieRec System</a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="recommendations.html">Rekomendasi</a>
+                <a href="analysis.html">Analisis</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container">
+        <section>
+            <h1>Evaluasi Sistem</h1>
+            <p>Hasil pengujian performa sistem rekomendasi menggunakan metrik Precision, Recall, dan F1-Score.</p>
+        </section>
+
+        <section class="section mt-20">
+            <h3>Metrik Performa (Top-12 Recommendations)</h3>
+            <div class="metrics-grid mt-20">
+                <div class="metric-card">
+                    <div class="metric-value">0.85</div>
+                    <div class="metric-label">Precision</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">0.72</div>
+                    <div class="metric-label">Recall</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">0.78</div>
+                    <div class="metric-label">F1-Score</div>
+                </div>
+            </div>
+
+        </section>
+        <section class="section">
+            <h3>Kesimpulan Evaluasi</h3>
+            <p style="text-align: justify;">
+                Berdasarkan hasil pengujian, sistem rekomendasi berbasis Content-Based Filtering menunjukkan performa yang cukup baik dalam memberikan rekomendasi yang relevan dengan preferensi pengguna. Nilai Precision yang tinggi (0.85) mengindikasikan bahwa sebagian besar film yang direkomendasikan memang sesuai dengan atribut (genre, sutradara, aktor) yang dicari oleh pengguna.
+            </p>
+        </section>
+    </main>
+
+
+    <script src="script.js"></script>
+</body>
+</html>

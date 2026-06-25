@@ -1,0 +1,277 @@
+{% extends "base.html" %}
+
+{% block title %}System Analysis - MovieRec{% endblock %}
+
+{% block content %}
+<div class="container-fluid px-4 py-5" style="margin-top: 60px;">
+    <div class="row mb-5">
+        <div class="col-12">
+            <h1 class="display-5 fw-bold text-danger">
+                <i class="bi bi-graph-up"></i> Analisis Sistem Rekomendasi
+            </h1>
+            <p class="lead text-secondary">Penjelasan mendalam mengenai mekanisme Hybrid TF-IDF & Cosine Similarity.</p>
+            <hr class="border-secondary">
+        </div>
+    </div>
+
+    <div class="row g-5">
+        <div class="col-lg-8">
+            <div class="card bg-dark border-secondary mb-5">
+                <div class="card-header border-secondary py-3">
+                    <h4 class="mb-0 text-white"><i class="bi bi-diagram-3 me-2"></i> 1. Arsitektur Sistem</h4>
+                </div>
+                <div class="card-body">
+                    <div class="bg-black p-4 rounded mb-4 overflow-auto">
+                        <pre class="mb-0 text-danger" style="font-family: monospace;">
+┌─────────────┐    ┌──────────────┐    ┌────────────────┐    ┌────────────────┐
+│ Input User  │───▶│ Ekstraksi    │───▶│ Vektorisasi    │───▶│ Perhitungan    │
+│ (Hybrid)    │    │ Fitur        │    │ TF-IDF         │    │ Cosine Sim     │
+└─────────────┘    └──────────────┘    └────────────────┘    └────────────────┘
+                                                                    │
+                                                                    ▼
+                   ┌────────────────────────────────────────────────────┐
+                   │            Daftar Rekomendasi Terurut              │
+                   └────────────────────────────────────────────────────┘
+                        </pre>
+                    </div>
+                    <h5 class="text-white">Alur Proses:</h5>
+                    <ol class="text-secondary">
+                        <li class="mb-2"><strong>Input User:</strong> Pengguna memberikan preferensi melalui pemilihan film atau kata kunci manual.</li>
+                        <li class="mb-2"><strong>Ekstraksi Fitur:</strong> Metadata (sutradara, pemeran, genre) diambil dan dinormalisasi.</li>
+                        <li class="mb-2"><strong>Vektorisasi TF-IDF:</strong> Fitur tekstual diubah menjadi vektor numerik berdimensi tinggi.</li>
+                        <li class="mb-2"><strong>Cosine Similarity:</strong> Menghitung sudut antara vektor profil pengguna dengan setiap vektor film dalam database.</li>
+                        <li><strong>Ranking:</strong> Film diurutkan berdasarkan skor kemiripan (0.0 hingga 1.0).</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="card bg-dark border-secondary mb-5">
+                <div class="card-header border-secondary py-3">
+                    <h4 class="mb-0 text-white"><i class="bi bi-text-left me-2"></i> 2. TF-IDF (Term Frequency - Inverse Document Frequency)</h4>
+                </div>
+                <div class="card-body">
+                    <p class="text-secondary">TF-IDF mengukur tingkat kepentingan suatu kata kunci dalam database film relatif terhadap seluruh koleksi data.</p>
+                    
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-6">
+                            <div class="p-3 bg-black border border-secondary rounded h-100">
+                                <h6 class="text-danger"><strong>TF (Term Frequency)</strong></h6>
+                                <p class="mb-2 small text-secondary">Seberapa sering sebuah kata kunci muncul dalam satu deskripsi film.</p>
+                                <code class="text-white small">TF(t,d) = (Jumlah term t dalam film d) / (Total term dalam d)</code>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="p-3 bg-black border border-secondary rounded h-100">
+                                <h6 class="text-danger"><strong>IDF (Inverse Document Frequency)</strong></h6>
+                                <p class="mb-2 small text-secondary">Seberapa jarang kata kunci tersebut muncul di seluruh database film.</p>
+                                <code class="text-white small">IDF(t) = log(Total film / Film dengan term t)</code>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="p-4 bg-black border border-danger rounded">
+                        <h6 class="text-white"><strong>Skor Gabungan:</strong></h6>
+                        <code class="fs-4 text-danger">TF-IDF(t,d) = TF(t,d) × IDF(t)</code>
+                        <p class="mb-0 mt-3 text-secondary small">Metode ini memberikan bobot lebih tinggi pada fitur yang unik (seperti sutradara spesifik) dan bobot rendah pada kata-kata umum.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card bg-dark border-secondary mb-5">
+                <div class="card-header border-secondary py-3">
+                    <h4 class="mb-0 text-white"><i class="bi bi-intersect me-2"></i> 3. Cosine Similarity</h4>
+                </div>
+                <div class="card-body">
+                    <p class="text-secondary">Mengukur nilai kosinus dari sudut antara dua vektor untuk menentukan seberapa mirip kumpulan fitur di antara keduanya.</p>
+                    
+                    <div class="bg-black p-4 rounded text-center mb-4 border border-secondary">
+                        <h5 class="text-secondary mb-3">Rumus:</h5>
+                        <code class="fs-4 text-danger">Similarity = (A · B) / (||A|| × ||B||)</code>
+                    </div>
+                    
+                    <div class="row text-center g-3">
+                        <div class="col-md-4">
+                            <div class="p-3 bg-secondary bg-opacity-10 border border-secondary rounded">
+                                <h3 class="text-secondary">0.0</h3>
+                                <p class="mb-0 small">Tidak Ada Korelasi</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="p-3 bg-danger bg-opacity-10 border border-danger rounded">
+                                <h3 class="text-danger">0.5</h3>
+                                <p class="mb-0 small">Cukup Cocok</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="p-3 bg-success bg-opacity-10 border border-success rounded">
+                                <h3 class="text-success">1.0</h3>
+                                <p class="mb-0 small">Sangat Identik</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card bg-dark border-secondary mb-5">
+                <div class="card-header border-secondary py-3">
+                    <h4 class="mb-0 text-white"><i class="bi bi-check-circle me-2"></i> 4. Metrik Evaluasi</h4>
+                </div>
+                <div class="card-body">
+                    <p class="text-secondary">Evaluasi performa sistem menggunakan Precision, Recall, dan F1-Score berdasarkan ambang batas (threshold) kemiripan sebesar <strong>{{ metrics.threshold if metrics else '0.15' }}</strong>.</p>
+                    
+                    {% if metrics %}
+                    <div class="row g-4 mb-4">
+                        <div class="col-md-4">
+                            <div class="p-4 bg-black border border-danger rounded text-center">
+                                <h6 class="text-secondary text-uppercase small mb-2">Precision</h6>
+                                <h2 class="text-danger mb-0">{{ (metrics.precision * 100)|round(1) }}%</h2>
+                                <p class="small text-secondary mt-2 mb-0">Akurasi rekomendasi</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="p-4 bg-black border border-danger rounded text-center">
+                                <h6 class="text-secondary text-uppercase small mb-2">Recall</h6>
+                                <h2 class="text-danger mb-0">{{ (metrics.recall * 100)|round(1) }}%</h2>
+                                <p class="small text-secondary mt-2 mb-0">Cakupan item relevan</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="p-4 bg-black border border-danger rounded text-center">
+                                <h6 class="text-secondary text-uppercase small mb-2">F1-Score</h6>
+                                <h2 class="text-danger mb-0">{{ (metrics.f1_score * 100)|round(1) }}%</h2>
+                                <p class="small text-secondary mt-2 mb-0">Rata-rata harmonik P & R</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-black p-4 rounded border border-secondary">
+                        <h6 class="text-white mb-3">Penjelasan Metrik:</h6>
+                        <ul class="text-secondary small mb-0">
+                            <li class="mb-2"><strong>Precision:</strong> Persentase film yang direkomendasikan yang benar-benar relevan (Skor &ge; {{ metrics.threshold }}). 
+                                <br><code class="text-danger">Rek_Relevan ({{ metrics.relevant_recommended }}) / Total_Rekomendasi ({{ recommendations|length }})</code></li>
+                            <li class="mb-2"><strong>Recall:</strong> Persentase dari seluruh film relevan dalam database yang berhasil ditangkap oleh sistem.
+                                <br><code class="text-danger">Rek_Relevan ({{ metrics.relevant_recommended }}) / Total_Relevan_di_DB ({{ metrics.total_relevant }})</code></li>
+                            <li><strong>F1-Score:</strong> Ukuran keseimbangan yang mempertimbangkan nilai precision dan recall secara bersamaan.
+                                <br><code class="text-danger">2 &times; (P &times; R) / (P + R)</code></li>
+                        </ul>
+                    </div>
+
+                    <div class="mt-4 p-4 bg-danger bg-opacity-10 border border-danger rounded">
+                        <h5 class="text-white mb-3"><i class="bi bi-chat-left-dots me-2"></i> Interpretasi Hasil </h5>
+                        <div class="text-secondary small">
+                            <p class="mb-2">
+                                <strong>Analisis Precision ({{ (metrics.precision * 100)|round(1) }}%):</strong>
+                                {% if metrics.precision == 1.0 %}
+                                    Sistem bekerja dengan sangat akurat! Semua film yang direkomendasikan memiliki tingkat kemiripan di atas ambang batas (threshold).
+                                {% elif metrics.precision >= 0.7 %}
+                                    Tingkat akurasi sistem cukup tinggi. Sebagian besar film yang muncul sangat relevan dengan preferensi yang Anda masukkan.
+                                {% else %}
+                                    Akurasi sistem moderat. Beberapa film mungkin terasa kurang mirip karena sistem mencoba mengeksplorasi variasi konten lain.
+                                {% endif %}
+                            </p>
+                            <p class="mb-2">
+                                <strong>Analisis Recall ({{ (metrics.recall * 100)|round(1) }}%):</strong>
+                                {% if metrics.recall == 1.0 %}
+                                    Sistem berhasil menemukan 100% film relevan yang ada di database. Ini menunjukkan cakupan (*coverage*) yang sempurna.
+                                {% elif metrics.recall >= 0.5 %}
+                                    Sistem berhasil menangkap lebih dari separuh film relevan dalam database. Cakupan sistem sudah cukup baik.
+                                {% else %}
+                                    Nilai recall {{ (metrics.recall * 100)|round(1) }}% menunjukkan bahwa sistem hanya menampilkan sebagian kecil dari total film serupa yang ada di database (Top-N). Hal ini wajar karena kita membatasi hasil hanya pada {{ recommendations|length }} film terbaik.
+                                {% endif %}
+                            </p>
+                            <p class="mb-0">
+                                <strong>Analisis F1-Score ({{ (metrics.f1_score * 100)|round(1) }}%):</strong>
+                                Secara keseluruhan, sistem memiliki nilai keseimbangan (F1) sebesar {{ (metrics.f1_score * 100)|round(1) }}%. 
+                                {% if metrics.f1_score >= 0.7 %}
+                                    Ini mengindikasikan bahwa model rekomendasi ini sudah sangat stabil dan reliabel untuk digunakan.
+                                {% else %}
+                                    Sistem masih memiliki ruang untuk optimasi, namun sudah cukup mampu memberikan rekomendasi yang bermakna bagi pengguna.
+                                {% endif %}
+                            </p>
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="text-center py-5 border border-secondary border-dashed rounded">
+                        <i class="bi bi-calculator fs-1 text-secondary mb-3"></i>
+                        <p class="text-secondary">Jalankan rekomendasi untuk melihat metrik evaluasi.</p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="sticky-top" style="top: 100px;">
+                <div class="card bg-dark border-secondary mb-4">
+                    <div class="card-header border-secondary py-3">
+                        <h4 class="mb-0 text-white"><i class="bi bi-bar-chart me-2"></i> Data Terkini</h4>
+                    </div>
+                    <div class="card-body">
+                        {% if recommendations %}
+                        <p class="small text-secondary">Skor kemiripan dari pencarian terakhir Anda:</p>
+                        <div class="table-responsive">
+                            <table class="table table-dark table-hover table-sm">
+                                <thead>
+                                    <tr>
+                                        <th class="text-secondary small">Rank</th>
+                                        <th class="text-secondary small">Film & Alasan</th>
+                                        <th class="text-secondary small">Skor</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for movie in recommendations %}
+                                    <tr>
+                                        <td class="text-secondary">{{ loop.index }}</td>
+                                        <td>
+                                            <div class="text-truncate text-white fw-bold" style="max-width: 200px;">{{ movie.title }} ({{ movie.year }})</div>
+                                            {% if movie.reasoning %}
+                                            <div class="small text-secondary" style="font-size: 0.75rem;">
+                                                <i class="bi bi-tags-fill me-1"></i> Cocok: {{ movie.reasoning }}
+                                            </div>
+                                            {% endif %}
+                                        </td>
+                                        <td><span class="text-danger fw-bold">{{ ((movie.similarity_score * 100)|round(1)) }}%</span></td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        {% else %}
+                        <div class="text-center py-4">
+                            <i class="bi bi-clock-history fs-1 text-secondary mb-3"></i>
+                            <p class="text-secondary small">Tidak ada data pencarian. Jalankan pencarian untuk melihat analisis langsung.</p>
+                            <a href="{{ url_for('home') }}" class="btn btn-outline-danger btn-sm mt-2">Mulai Cari</a>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="card bg-dark border-secondary">
+                    <div class="card-header border-secondary py-3">
+                        <h4 class="mb-0 text-white"><i class="bi bi-book me-2"></i> Referensi</h4>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-unstyled mb-0">
+                            <li class="mb-3">
+                                <a href="https://scikit-learn.org/stable/modules/generated/sklearn.feature_extraction.text.TfidfVectorizer.html" target="_blank" class="text-decoration-none text-secondary d-flex align-items-center">
+                                    <i class="bi bi-link-45deg fs-4 me-2"></i> Scikit-learn TF-IDF
+                                </a>
+                            </li>
+                            <li class="mb-3">
+                                <a href="https://scikit-learn.org/stable/modules/metrics.html#cosine-similarity" target="_blank" class="text-decoration-none text-secondary d-flex align-items-center">
+                                    <i class="bi bi-link-45deg fs-4 me-2"></i> Cosine Similarity Docs
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://en.wikipedia.org/wiki/Recommender_system#Content-based_filtering" target="_blank" class="text-decoration-none text-secondary d-flex align-items-center">
+                                    <i class="bi bi-link-45deg fs-4 me-2"></i> Recommender Systems
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

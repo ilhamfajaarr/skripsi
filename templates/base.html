@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}MovieRec{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{{ url_for('home') }}">
+                MOVIEREC
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('home') }}">Beranda</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('analysis') }}">Analisis Sistem</a>
+                    </li>
+                    {% if session.get('recommendations') %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('recommendations') }}">Daftar Saya</a>
+                    </li>
+                    {% endif %}
+                </ul>
+                <form class="d-flex me-3" action="{{ url_for('browse') }}" method="GET">
+                    <div class="input-group input-group-sm">
+                        <input class="form-control bg-dark text-white border-secondary" type="search" name="q" placeholder="Cari film..." aria-label="Search">
+                        <button class="btn btn-outline-secondary" type="submit"><i class="bi bi-search"></i></button>
+                    </div>
+                </form>
+                <div class="d-flex">
+                    <a href="{{ url_for('reset') }}" class="btn btn-outline-light btn-sm">Reset</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="main-content" style="padding-top: 0;">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="container" style="padding-top: 80px;">
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ 'danger' if category == 'error' else 'info' }} alert-dismissible fade show bg-dark text-white border-secondary" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert"></button>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </div>
+
+    <!-- Toast Container for Custom Notifications -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <footer class="py-5 mt-5">
+        <div class="container text-center">
+            <div class="mb-4">
+                <a href="#" class="text-secondary me-3"><i class="bi bi-facebook fs-4"></i></a>
+                <a href="#" class="text-secondary me-3"><i class="bi bi-instagram fs-4"></i></a>
+                <a href="#" class="text-secondary me-3"><i class="bi bi-twitter fs-4"></i></a>
+                <a href="#" class="text-secondary"><i class="bi bi-youtube fs-4"></i></a>
+            </div>
+            <p class="mb-2">🎬 MovieRec - Sistem Rekomendasi Hybrid</p>
+            <small>&copy; 2026 MovieRec. Seluruh Hak Cipta Dilindungi.</small>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

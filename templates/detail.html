@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}{{ movie.title }} - MovieRec{% endblock %}
+
+{% block content %}
+<div class="hero" style="background-image: linear-gradient(to right, #141414 20%, rgba(20,20,20,0.4) 50%, rgba(20,20,20,0.1) 100%), url('https://images.unsplash.com/photo-1485846234645-a62644f84728?q=80&w=2059&auto=format&fit=crop');">
+    <div class="hero-content">
+        <h1 class="hero-title">{{ movie.title }}</h1>
+        <div class="mb-4">
+            <span class="text-success fw-bold me-3">{{ movie.year }}</span>
+            <span class="text-white small border border-secondary px-2 py-1 rounded me-3">HD</span>
+            <span class="text-secondary">{{ movie.genres }}</span>
+        </div>
+        <p class="hero-description text-light">
+            {{ movie.overview if movie.overview else 'Sinopsis tidak tersedia.' }}
+        </p>
+        <div class="d-flex gap-2 mb-4">
+            <a href="{{ url_for('recommendations') }}" class="btn btn-light btn-lg px-5"><i class="bi bi-card-list"></i> Lihat Rekomendasi Saya</a>
+            <a href="{{ url_for('home') }}" class="btn btn-secondary btn-lg px-4 bg-opacity-50"><i class="bi bi-arrow-left"></i> Kembali ke Beranda</a>
+        </div>
+        <div class="movie-metadata small text-secondary">
+            <p class="mb-1"><span class="text-white">Sutradara:</span> {{ movie.director }}</p>
+            <p class="mb-1"><span class="text-white">Pemeran:</span> {{ movie.cast }}</p>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid px-4 py-5">
+    <div class="row">
+        <div class="col-12">
+            <h3 class="mb-4">Detail Selengkapnya</h3>
+            <div class="card bg-dark border-secondary">
+                <div class="card-body">
+                    <div class="row g-4">
+                        <div class="col-md-3">
+                            <label class="text-secondary small text-uppercase d-block mb-1">Tahun Rilis</label>
+                            <span class="text-white fs-5">{{ movie.year }}</span>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="text-secondary small text-uppercase d-block mb-1">Genre</label>
+                            <span class="text-white fs-5">{{ movie.genres }}</span>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="text-secondary small text-uppercase d-block mb-1">Skor Kecocokan</label>
+                            <span class="text-danger fs-5 fw-bold">{{ ((movie.similarity_score * 100)|round(1)) if movie.similarity_score else 'N/A' }}% Relevan</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="mt-5">
+        <a href="{{ url_for('recommendations') }}" class="btn btn-outline-light">
+            <i class="bi bi-arrow-left me-2"></i> Kembali ke Rekomendasi
+        </a>
+    </div>
+</div>
+{% endblock %}

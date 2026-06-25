@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block title %}Home - MovieRec{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="hero" style="background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1626814026160-2237a95fc5a0?q=80&w=2070&auto=format&fit=crop');">
+    <div class="hero-content">
+        <h1 class="hero-title">Temukan Film Favorit Anda Berikutnya</h1>
+        <p class="hero-description">
+            Pengalaman sistem rekomendasi film personal yang didukung oleh Hybrid TF-IDF & Cosine Similarity.
+            Cari film yang sesuai dengan selera unik Anda berdasarkan sutradara, pemeran, dan genre.
+        </p>
+        <div class="d-flex gap-3">
+            <a href="#recommend-form" class="btn btn-primary btn-lg px-4"><i class="bi bi-play-fill"></i> Mulai Sekarang</a>
+            <a href="{{ url_for('analysis') }}" class="btn btn-outline-light btn-sm px-4 d-flex align-items-center"><i class="bi bi-info-circle me-2"></i> Pelajari Lebih Lanjut</a>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid px-4">
+    <!-- Movie Rows (Static for now to show the look) -->
+    <div class="movie-row">
+        <h2 class="row-title">Genre Populer</h2>
+        <div class="movie-container">
+            {% for genre in genres[:12] %}
+            <div class="movie-item genre-card text-center p-4 rounded bg-dark border border-secondary" style="width: 180px;">
+                <i class="bi bi-tag fs-1 mb-2 text-danger"></i>
+                <h5 class="mb-0">{{ genre }}</h5>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Recommendation Form Section -->
+    <div id="recommend-form" class="row justify-content-center py-5">
+        <div class="col-lg-8">
+            <div class="card shadow-lg bg-dark border-secondary">
+                <div class="card-header border-secondary py-3">
+                    <h3 class="mb-0 text-center"><i class="bi bi-magic"></i> Pencari Preferensi Film</h3>
+                </div>
+                <div class="card-body p-4">
+                    <form action="{{ url_for('recommend') }}" method="POST">
+                        <div class="row g-4">
+                            <div class="col-12">
+                                <h5 class="text-danger mb-3">1. Pilih Film yang Anda Sukai</h5>
+                                <div class="search-container">
+                                    <input type="text" class="form-control form-control-lg bg-dark text-white border-secondary" id="movieSearch" placeholder="Ketik judul film (misal: Inception)..." autocomplete="off">
+                                    <div id="searchResults" class="search-results"></div>
+                                </div>
+                                <select class="form-select" name="favorite_movies" id="movieSelect" multiple style="display: none;">
+                                </select>
+                                <div id="selectedMovies" class="mt-3 d-flex flex-wrap gap-2"></div>
+                                <small id="movieFeedback" class="mt-2"></small>
+                            </div>
+
+                            <div class="col-12">
+                                <h5 class="text-danger mb-3">2. Atau Tambahkan Preferensi Manual</h5>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="director" class="form-label text-secondary small text-uppercase fw-bold">Sutradara Favorit</label>
+                                <div class="search-container">
+                                    <input type="text" class="form-control bg-dark text-white border-secondary autocomplete-input" id="director" name="director" placeholder="misal: Christopher Nolan" data-type="director" autocomplete="off">
+                                    <div class="search-results"></div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="cast" class="form-label text-secondary small text-uppercase fw-bold">Aktor/Aktris Favorit</label>
+                                <input type="text" class="form-control bg-dark text-white border-secondary" id="cast" name="cast" placeholder="misal: Leonardo DiCaprio">
+                            </div>
+
+                            <div class="col-12">
+                                <label class="form-label text-secondary small text-uppercase fw-bold">Genre yang Disukai</label>
+                                <div class="row g-2">
+                                    {% for genre in genres[:12] %}
+                                    <div class="col-6 col-md-3">
+                                        <div class="form-check custom-checkbox">
+                                            <input class="form-check-input" type="checkbox" name="genres" value="{{ genre }}" id="genre_{{ loop.index }}">
+                                            <label class="form-check-label small" for="genre_{{ loop.index }}">{{ genre }}</label>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-5 text-center">
+                            <button type="submit" class="btn btn-primary btn-lg px-5 py-3 rounded-pill fw-bold">
+                                <i class="bi bi-search me-2"></i> CARI REKOMENDASI
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
