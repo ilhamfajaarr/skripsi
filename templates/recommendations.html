@@ -1,6 +1,14 @@
 {% extends "base.html" %}
 
-{% block title %}My List - MovieRec{% endblock %}
+{% block title %}Daftar Rekomendasi - MovieRec{% endblock %}
+
+{% block page_css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/recommendations.css') }}">
+{% endblock %}
+
+{% block page_js %}
+    <script src="{{ url_for('static', filename='js/recommendations.js') }}"></script>
+{% endblock %}
 
 {% block content %}
 {% if recommendations %}

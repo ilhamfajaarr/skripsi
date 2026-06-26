@@ -2,6 +2,14 @@
 
 {% block title %}{{ movie.title }} - MovieRec{% endblock %}
 
+{% block page_css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/detail.css') }}">
+{% endblock %}
+
+{% block page_js %}
+    <script src="{{ url_for('static', filename='js/detail.js') }}"></script>
+{% endblock %}
+
 {% block content %}
 <div class="hero" style="background-image: linear-gradient(to right, #141414 20%, rgba(20,20,20,0.4) 50%, rgba(20,20,20,0.1) 100%), url('https://images.unsplash.com/photo-1485846234645-a62644f84728?q=80&w=2059&auto=format&fit=crop');">
     <div class="hero-content">

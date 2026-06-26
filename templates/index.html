@@ -1,6 +1,14 @@
 {% extends "base.html" %}
 
-{% block title %}Home - MovieRec{% endblock %}
+{% block title %}Beranda - MovieRec{% endblock %}
+
+{% block page_css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+{% endblock %}
+
+{% block page_js %}
+    <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+{% endblock %}
 
 {% block content %}
 <!-- Hero Section -->

@@ -1,6 +1,14 @@
 {% extends "base.html" %}
 
-{% block title %}System Analysis - MovieRec{% endblock %}
+{% block title %}Analisis Sistem - MovieRec{% endblock %}
+
+{% block page_css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/analysis.css') }}">
+{% endblock %}
+
+{% block page_js %}
+    <script src="{{ url_for('static', filename='js/analysis.js') }}"></script>
+{% endblock %}
 
 {% block content %}
 <div class="container-fluid px-4 py-5" style="margin-top: 60px;">

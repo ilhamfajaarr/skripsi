@@ -2,6 +2,14 @@
 
 {% block title %}{{ title }} - MovieRec{% endblock %}
 
+{% block page_css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/browse.css') }}">
+{% endblock %}
+
+{% block page_js %}
+    <script src="{{ url_for('static', filename='js/browse.js') }}"></script>
+{% endblock %}
+
 {% block content %}
 <div class="container-fluid px-4 py-5" style="margin-top: 60px;">
     <div class="row mb-4">
